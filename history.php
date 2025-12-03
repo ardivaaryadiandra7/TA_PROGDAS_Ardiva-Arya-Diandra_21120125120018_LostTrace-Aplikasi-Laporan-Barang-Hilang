@@ -5,6 +5,9 @@ require 'logic/class.php';
 User::logout();
 User::rollback();
 
+$data = new Data();
+$data->getHistoryDataBy($_SESSION["credential"]);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +20,10 @@ User::rollback();
 <body>
 
     <div class="container df-nav">
-        <h2>| Daftar Laporan</h2>
+        <h2>| Laporan</h2>
         <div class="nav">
+            <a href="report-list.php">List</a>
             <a href="report.php">Lapor</a>
-            <a href="history.php">History</a>
         </div>
     </div>
 
@@ -37,25 +40,26 @@ User::rollback();
             </thead>
 
             <tbody>
-                <?php if($_SESSION["report_data"] == null) : ?>
+                <?php if($_SESSION["history_by_user"] == null) : ?>
                     <tr>
                         <td colspan="5">Data tidak tersedia</td>
                     </tr>
                 <?php else : ?>
-                    <?php foreach($_SESSION["report_data"] as $user_report) : ?>
+                    <?php foreach($_SESSION["history_by_user"] as $user_history) : ?>
                         <tr>
                             <td>
-                                <img src="<?= "uploads/". $user_report["foto"] ?>" width="100px">
+                                <img src="<?= "uploads/". $user_history["foto"] ?>" width="100px">
                             </td>
-                            <td><?= $user_report["deskripsi_barang"] ?></td>
-                            <td><?= $user_report["lokasi"] ?></td>
-                            <td><?= $user_report["kontak"] ?></td>
-                            <td><?= $user_report["status"] ?></td>
+                            <td><?= $user_history["deskripsi_barang"] ?></td>
+                            <td><?= $user_history["lokasi"] ?></td>
+                            <td><?= $user_history["kontak"] ?></td>
+                            <td><?= $user_history["status"] ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </tbody>
         </table>
+
         <a href="?logout=1" style="margin-top: 1em;">Logout</a>
     </div>
 </body>
